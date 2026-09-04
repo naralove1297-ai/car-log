@@ -573,7 +573,9 @@
   .sync-note{
     display:flex;
     align-items:center;
-    gap:8px;
+    flex-wrap:wrap;
+    row-gap:8px;
+    column-gap:8px;
     font-size:12.5px;
     color:var(--text-muted);
     background:var(--surface-soft);
@@ -585,6 +587,7 @@
   .sync-note.local{ color:color-mix(in srgb, var(--warn) 70%, black 10%); }
   .sync-dot{ width:7px; height:7px; border-radius:50%; background:var(--good); flex:0 0 auto; }
   .sync-note.local .sync-dot{ background:var(--warn); }
+  .sync-note .sync-text{ flex:1 1 220px; min-width:0; }
 
   footer.credit{
     text-align:center;
@@ -594,6 +597,8 @@
   }
 
   .sync-refresh{
+    flex:0 0 auto;
+    white-space:nowrap;
     margin-left:auto;
     border:1px solid var(--border);
     background:var(--surface);
@@ -1016,20 +1021,20 @@
     var sync = document.getElementById('sync-active');
     if(!sync) return;
     if(writeStatus === 'loading'){
-      sync.innerHTML = '<div class="sync-note"><span class="sync-dot"></span>구글 시트에서 최신 기록을 불러오는 중...</div>';
+      sync.innerHTML = '<div class="sync-note"><span class="sync-dot"></span><span class="sync-text">구글 시트에서 최신 기록을 불러오는 중...</span></div>';
     } else if(writeStatus === 'saving'){
-      sync.innerHTML = '<div class="sync-note"><span class="sync-dot"></span>저장하는 중...</div>';
+      sync.innerHTML = '<div class="sync-note"><span class="sync-dot"></span><span class="sync-text">저장하는 중...</span></div>';
     } else if(writeStatus === 'ok'){
-      sync.innerHTML = '<div class="sync-note"><span class="sync-dot"></span>구글 시트에 저장돼요 — 가족 모두 같은 기록을 보고 함께 기록할 수 있어요. ' +
+      sync.innerHTML = '<div class="sync-note"><span class="sync-dot"></span><span class="sync-text">구글 시트에 저장돼요 — 가족 모두 같은 기록을 보고 함께 기록할 수 있어요.</span>' +
         '<button type="button" class="sync-refresh" id="sync-refresh-btn">새로고침</button></div>';
     } else if(writeStatus === 'error'){
-      sync.innerHTML = '<div class="sync-note local"><span class="sync-dot"></span>저장에 실패했어요. 인터넷 연결을 확인하고 다시 시도해 주세요 (일단 이 화면엔 남아있어요). ' +
+      sync.innerHTML = '<div class="sync-note local"><span class="sync-dot"></span><span class="sync-text">저장에 실패했어요. 인터넷 연결을 확인하고 다시 시도해 주세요 (일단 이 화면엔 남아있어요).</span>' +
         '<button type="button" class="sync-refresh" id="sync-refresh-btn">새로고침</button></div>';
     } else if(writeStatus === 'offline'){
-      sync.innerHTML = '<div class="sync-note local"><span class="sync-dot"></span>지금은 구글 시트에 연결할 수 없어서 이 기기에 저장된 마지막 기록을 보여줘요. ' +
+      sync.innerHTML = '<div class="sync-note local"><span class="sync-dot"></span><span class="sync-text">지금은 구글 시트에 연결할 수 없어서 이 기기에 저장된 마지막 기록을 보여줘요.</span>' +
         '<button type="button" class="sync-refresh" id="sync-refresh-btn">다시 연결</button></div>';
     } else {
-      sync.innerHTML = '<div class="sync-note"><span class="sync-dot"></span>함께 쓰는 차계부예요.</div>';
+      sync.innerHTML = '<div class="sync-note"><span class="sync-dot"></span><span class="sync-text">함께 쓰는 차계부예요.</span></div>';
     }
     var refreshBtn = document.getElementById('sync-refresh-btn');
     if(refreshBtn){
