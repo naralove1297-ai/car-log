@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>우리가족 차계부</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Sans+KR:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --hero-bg:#dcecdf;
+    --hero-bg-deep:#c9e4cd;
+    --page-bg:#faf3e6;
+    --page-bg-deep:#f4e8d2;
+    --divider-line: linear-gradient(90deg, var(--btn-maint), var(--btn-yeosu), var(--btn-first), var(--btn-second));
+    --surface:#ffffff;
+    --surface-soft:#f4faf5;
+    --border:#cfe3d2;
+    --text:#1e2b22;
+    --text-muted:#5f7267;
+    --text-faint:#8a9990;
+    --heart:#e0637a;
+
+    --btn-maint:#7c8ee0;
+    --btn-yeosu:#4fa5c9;
+    --btn-first:#e2955c;
+    --btn-second:#c076c9;
+
+    --c-oil:#dda23c;
+    --c-mission:#d97f3f;
+    --c-brake:#d1594d;
+    --c-belt:#3fa89a;
+    --c-plug:#8b74d6;
+    --c-chain:#4f80d9;
+    --c-tire:#9c714a;
+    --c-dfilter:#3f9bb0;
+    --c-glow:#6e9c4a;
+    --c-dpf:#a24fa0;
+    --c-urea:#c94f7c;
+
+    --good:#3f9e6b;
+    --warn:#d1594d;
+
+    --shadow: 0 1px 2px rgba(30,50,35,.06), 0 6px 20px -8px rgba(30,50,35,.18);
+    --radius-lg: 22px;
+    --radius-md: 16px;
+    --radius-sm: 10px;
+
+    --font-display: 'Gowun Dodum', 'Noto Sans KR', sans-serif;
+    --font-body: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --hero-bg:#14231a;
+      --hero-bg-deep:#0c150f;
+      --page-bg:#1c1710;
+      --page-bg-deep:#140f0a;
+      --surface:#182319;
+      --surface-soft:#1d2b1f;
+      --border:#2b3d2e;
+      --text:#e8f2e9;
+      --text-muted:#9fb3a4;
+      --text-faint:#6d8175;
+      --shadow: 0 1px 2px rgba(0,0,0,.35), 0 10px 26px -10px rgba(0,0,0,.55);
+    }
+  }
+  :root[data-theme="dark"]{
+    --hero-bg:#14231a;
+    --hero-bg-deep:#0c150f;
+    --page-bg:#1c1710;
+    --page-bg-deep:#140f0a;
+    --surface:#182319;
+    --surface-soft:#1d2b1f;
+    --border:#2b3d2e;
+    --text:#e8f2e9;
+    --text-muted:#9fb3a4;
+    --text-faint:#6d8175;
+    --shadow: 0 1px 2px rgba(0,0,0,.35), 0 10px 26px -10px rgba(0,0,0,.55);
+  }
+
+  *{box-sizing:border-box;}
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.001ms !important; transition-duration:.001ms !important;}
+  }
+
+  body{
+    margin:0;
+    overflow-x:hidden;
+    background:
+      radial-gradient(1100px 460px at 50% 100%, var(--page-bg-deep), transparent),
+      var(--page-bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .page{
+    max-width:900px;
+    margin:0 auto;
+    padding:0 20px 80px;
+  }
+
+  /* ---------- hero (full-bleed green banner, above the divider line) ---------- */
+  .hero{
+    text-align:center;
+    padding:40px 12px 32px;
+    margin:0 0 30px;
+    background:
+      radial-gradient(900px 340px at 50% -140px, var(--hero-bg-deep), transparent),
+      var(--hero-bg);
+    border-bottom:5px solid;
+    border-image:var(--divider-line) 1;
+    /* full-bleed: break out of .page's centered max-width */
+    width:100vw;
+    position:relative;
+    left:50%;
+    right:50%;
+    margin-left:-50vw;
+    margin-right:-50vw;
+    padding-left:calc((100vw - min(100vw, 900px)) / 2 + 20px);
+    padding-right:calc((100vw - min(100vw, 900px)) / 2 + 20px);
+    box-sizing:border-box;
+  }
+  .hero .heart{
+    display:inline-block;
+    color:var(--heart);
+    font-size:22px;
+    transform:translateY(2px);
+  }
+  .hero h1{
+    font-family:var(--font-display);
+    font-size:clamp(28px, 5vw, 40px);
+    margin:6px 0 14px;
+    text-wrap:balance;
+    letter-spacing:.01em;
+  }
+  .hero .tagline{
+    font-family:var(--font-display);
+    font-size:clamp(17px, 3vw, 21px);
+    color:var(--text-muted);
+    margin:0;
+  }
+  .hero .tagline span{display:block;}
+  .hero .tagline .big{
+    font-size:clamp(22px, 4vw, 27px);
+    color:var(--text);
+    font-weight:700;
+    margin-top:4px;
+  }
+
+  /* ---------- switch buttons (top-level: 정비주기 + 3 family categories) ---------- */
+  .switchboard{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:14px;
+    margin:34px 0 6px;
+  }
+  @media (max-width:760px){
+    .switchboard{grid-template-columns:repeat(2, 1fr);}
+  }
+  @media (max-width:420px){
+    .switchboard{grid-template-columns:1fr;}
+  }
+
+  .switch-btn{
+    --btn-c: var(--btn-maint);
+    position:relative;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    text-align:left;
+    padding:14px 16px;
+    border-radius:var(--radius-md);
+    border:2px solid color-mix(in srgb, var(--btn-c) 38%, var(--border));
+    background:color-mix(in srgb, var(--btn-c) 13%, var(--surface));
+    cursor:pointer;
+    font-family:var(--font-body);
+    color:var(--text);
+    box-shadow:var(--shadow);
+    transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .switch-btn:hover{ transform:translateY(-2px); }
+  .switch-btn:focus-visible{ outline:3px solid color-mix(in srgb, var(--btn-c) 60%, white); outline-offset:2px; }
+  .switch-btn .icon-slot{
+    flex:0 0 auto;
+    width:52px; height:52px;
+    border-radius:14px;
+    display:flex; align-items:center; justify-content:center;
+    background:color-mix(in srgb, var(--btn-c) 22%, var(--surface));
+    color:color-mix(in srgb, var(--btn-c) 75%, black 15%);
+  }
+  .switch-btn .icon-slot svg{ width:32px; height:32px; }
+  .switch-btn .labels{ min-width:0; }
+  .switch-btn .label-main{
+    font-weight:700;
+    font-size:16px;
+    display:block;
+  }
+  .switch-btn .label-sub{
+    font-size:12px;
+    color:var(--text-muted);
+    font-family:var(--font-mono);
+    letter-spacing:.01em;
+    display:block;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+  .switch-btn.is-active{
+    background:color-mix(in srgb, var(--btn-c) 30%, var(--surface));
+    border-color:color-mix(in srgb, var(--btn-c) 70%, var(--border));
+    box-shadow:var(--shadow), inset 0 0 0 2px color-mix(in srgb, var(--btn-c) 45%, transparent);
+  }
+
+  /* ---------- car sub-tabs (level 2: cars inside the active family) ---------- */
+  .car-subnav{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:22px;
+  }
+  .car-tab{
+    --tab-c: var(--btn-maint);
+    display:flex;
+    align-items:center;
+    gap:9px;
+    padding:7px 14px 7px 7px;
+    border-radius:999px;
+    border:2px solid color-mix(in srgb, var(--tab-c) 40%, var(--border));
+    background:color-mix(in srgb, var(--tab-c) 12%, var(--surface));
+    cursor:pointer;
+    font-family:var(--font-body);
+    color:var(--text);
+    transition:transform .15s ease, background .15s ease;
+  }
+  .car-tab:hover{ transform:translateY(-1px); }
+  .car-tab:focus-visible{ outline:3px solid color-mix(in srgb, var(--tab-c) 60%, white); outline-offset:2px; }
+  .car-tab .tab-icon{
+    flex:0 0 auto;
+    width:36px; height:36px;
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    background:color-mix(in srgb, var(--tab-c) 24%, var(--surface));
+    color:color-mix(in srgb, var(--tab-c) 75%, black 15%);
+  }
+  .car-tab .tab-icon svg{ width:26px; height:15px; }
+  .car-tab .tab-label{ font-weight:700; font-size:13.5px; display:block; }
+  .car-tab .tab-plate{ font-family:var(--font-mono); font-size:10.5px; color:var(--text-muted); display:block; }
+  .car-tab.is-active{
+    background:color-mix(in srgb, var(--tab-c) 32%, var(--surface));
+    border-color:color-mix(in srgb, var(--tab-c) 72%, var(--border));
+    box-shadow:inset 0 0 0 2px color-mix(in srgb, var(--tab-c) 45%, transparent);
+  }
+
+  /* ---------- detail panel: exactly one shown below the buttons at a time ---------- */
+  .detail-panel{
+    margin-top:16px;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--radius-lg);
+    box-shadow:var(--shadow);
+    padding:26px 24px 28px;
+    animation:reveal .22s ease;
+  }
+  .detail-panel[hidden]{ display:none; }
+  @keyframes reveal{
+    from{ opacity:0; transform:translateY(-6px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+  .panel-accent{
+    height:6px;
+    border-radius:6px;
+    margin:-26px -24px 22px;
+    background:var(--panel-c, var(--btn-maint));
+  }
+  .panel-title{
+    font-family:var(--font-display);
+    font-size:clamp(20px, 3.4vw, 25px);
+    margin:0 0 4px;
+    text-wrap:balance;
+  }
+  .panel-sub{
+    color:var(--text-muted);
+    font-size:14px;
+    margin:0 0 22px;
+  }
+
+  /* car header */
+  .car-header{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    flex-wrap:wrap;
+    padding-bottom:20px;
+    margin-bottom:20px;
+    border-bottom:1px dashed var(--border);
+  }
+  .car-header .car-figure{
+    flex:0 0 auto;
+    width:132px; height:78px;
+    border-radius:16px;
+    background:color-mix(in srgb, var(--panel-c) 14%, var(--surface-soft));
+    display:flex; align-items:center; justify-content:center;
+  }
+  .car-header .car-figure svg{ width:112px; height:60px; }
+  .car-header .car-meta{ flex:1 1 220px; min-width:180px; }
+  .car-header .plate{
+    display:inline-block;
+    font-family:var(--font-mono);
+    font-weight:700;
+    font-size:13.5px;
+    padding:3px 10px;
+    border-radius:8px;
+    background:color-mix(in srgb, var(--panel-c) 20%, var(--surface-soft));
+    color:color-mix(in srgb, var(--panel-c) 80%, black 20%);
+    margin-bottom:6px;
+  }
+  .car-header .model-name{
+    font-weight:700; font-size:18px; margin:0;
+  }
+  .fuel-tag{
+    display:inline-block;
+    font-family:var(--font-mono);
+    font-weight:700;
+    font-size:11px;
+    padding:2px 8px;
+    border-radius:999px;
+    background:color-mix(in srgb, var(--c-dfilter) 22%, var(--surface-soft));
+    color:color-mix(in srgb, var(--c-dfilter) 80%, black 20%);
+    vertical-align:middle;
+  }
+  .sub-section-title{
+    font-family:var(--font-display);
+    font-size:17px;
+    margin:26px 0 4px;
+  }
+  .car-header .odo-stat{
+    flex:1 1 220px;
+    min-width:200px;
+  }
+  .odo-stat .odo-value{
+    font-family:var(--font-mono);
+    font-weight:700;
+    font-size:22px;
+    font-variant-numeric:tabular-nums;
+  }
+  .odo-stat .odo-label{ font-size:12.5px; color:var(--text-muted); }
+  .odo-bar{
+    height:10px;
+    border-radius:6px;
+    background:var(--surface-soft);
+    border:1px solid var(--border);
+    overflow:hidden;
+    margin-top:8px;
+  }
+  .odo-bar > div{
+    height:100%;
+    background:linear-gradient(90deg, color-mix(in srgb, var(--panel-c) 70%, black 6%), var(--panel-c));
+    border-radius:6px 0 0 6px;
+    transition:width .4s ease;
+  }
+  .odo-goal{
+    font-size:11.5px; color:var(--text-faint); margin-top:4px; font-family:var(--font-mono);
+  }
+
+  /* maintenance reference cards (panel 1) */
+  .item-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:12px;
+  }
+  @media (max-width:600px){ .item-grid{ grid-template-columns:1fr; } }
+  .item-card{
+    border:1px solid color-mix(in srgb, var(--item-c) 40%, var(--border));
+    background:color-mix(in srgb, var(--item-c) 12%, var(--surface));
+    border-radius:var(--radius-md);
+    padding:14px 14px 14px 16px;
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+  }
+  .item-card .swatch{
+    flex:0 0 auto;
+    width:8px; align-self:stretch;
+    border-radius:6px;
+    background:var(--item-c);
+    margin-top:2px;
+  }
+  .item-badge{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    font-family:var(--font-mono);
+    font-weight:700;
+    font-size:11px;
+    letter-spacing:.02em;
+    color:white;
+    background:var(--item-c);
+    padding:3px 9px;
+    border-radius:999px;
+    margin-bottom:6px;
+  }
+  .item-card h3{
+    margin:0 0 3px;
+    font-size:15.5px;
+  }
+  .item-card .item-range{
+    font-family:var(--font-mono);
+    font-weight:700;
+    font-size:13px;
+    color:color-mix(in srgb, var(--item-c) 80%, black 25%);
+  }
+  .item-card .item-desc{
+    font-size:13px;
+    color:var(--text-muted);
+    margin-top:3px;
+  }
+
+  /* car item rows (car content panel) */
+  .log-item{
+    border:1px solid color-mix(in srgb, var(--item-c) 38%, var(--border));
+    border-radius:var(--radius-md);
+    margin-bottom:12px;
+    overflow:hidden;
+    background:var(--surface);
+  }
+  .log-item summary{
+    list-style:none;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:13px 16px;
+    background:color-mix(in srgb, var(--item-c) 11%, var(--surface));
+  }
+  .log-item summary::-webkit-details-marker{ display:none; }
+  .log-item .swatch-dot{
+    flex:0 0 auto;
+    width:12px; height:12px; border-radius:50%;
+    background:var(--item-c);
+  }
+  .log-item .head-text{ flex:1 1 auto; min-width:0; }
+  .log-item .head-text h3{ margin:0; font-size:15px; }
+  .log-item .head-text .range{
+    font-family:var(--font-mono); font-size:12px; color:var(--text-muted);
+  }
+  .due-chip{
+    flex:0 0 auto;
+    font-size:12px;
+    font-weight:700;
+    padding:4px 10px;
+    border-radius:999px;
+    font-family:var(--font-mono);
+    background:color-mix(in srgb, var(--good) 18%, var(--surface));
+    color:color-mix(in srgb, var(--good) 75%, black 20%);
+    white-space:nowrap;
+  }
+  .due-chip.warn{
+    background:color-mix(in srgb, var(--warn) 20%, var(--surface));
+    color:color-mix(in srgb, var(--warn) 70%, black 15%);
+  }
+  .due-chip.empty{
+    background:var(--surface-soft);
+    color:var(--text-faint);
+  }
+  .log-item .caret{
+    flex:0 0 auto; width:16px; height:16px; color:var(--text-faint);
+    transition:transform .18s ease;
+  }
+  .log-item[open] .caret{ transform:rotate(180deg); }
+
+  .log-body{
+    padding:14px 16px 16px;
+    border-top:1px dashed var(--border);
+  }
+  .log-form{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    align-items:end;
+    margin-bottom:14px;
+  }
+  .log-form .field{ display:flex; flex-direction:column; gap:4px; }
+  .log-form label{ font-size:11.5px; color:var(--text-muted); }
+  .log-form input{
+    font-family:var(--font-mono);
+    font-size:14px;
+    padding:8px 10px;
+    border-radius:9px;
+    border:1px solid var(--border);
+    background:var(--surface-soft);
+    color:var(--text);
+  }
+  .log-form input:focus-visible{ outline:2px solid var(--item-c); outline-offset:1px; }
+  .log-form input[type="date"]{ min-width:150px; }
+  .log-form input[type="number"]{ width:130px; }
+  .log-form button{
+    font-family:var(--font-body);
+    font-weight:700;
+    font-size:13.5px;
+    padding:9px 16px;
+    border-radius:9px;
+    border:none;
+    background:var(--item-c);
+    color:white;
+    cursor:pointer;
+  }
+  .log-form button:hover{ filter:brightness(1.05); }
+  .log-form button:active{ transform:translateY(1px); }
+
+  .log-history{ display:flex; flex-direction:column; gap:6px; }
+  .log-history .empty-note{
+    font-size:13px; color:var(--text-faint); padding:6px 2px;
+  }
+  .log-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:7px 10px;
+    border-radius:8px;
+    background:var(--surface-soft);
+    font-size:13.5px;
+  }
+  .log-row .log-date{
+    font-family:var(--font-mono);
+    font-weight:700;
+    color:var(--text);
+    min-width:96px;
+  }
+  .log-row .log-km{
+    font-family:var(--font-mono);
+    color:color-mix(in srgb, var(--item-c) 82%, black 25%);
+    font-weight:700;
+    font-variant-numeric:tabular-nums;
+  }
+  .log-row .log-note{ color:var(--text-muted); flex:1 1 auto; }
+  .log-row .log-edit{
+    margin-left:auto;
+    flex:0 0 auto;
+    border:none; background:transparent; cursor:pointer;
+    color:var(--text-faint);
+    width:22px; height:22px;
+    border-radius:6px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .log-row .log-edit:hover{ background:color-mix(in srgb, var(--item-c) 18%, transparent); color:var(--item-c); }
+  .log-row .log-del{
+    flex:0 0 auto;
+    border:none; background:transparent; cursor:pointer;
+    color:var(--text-faint);
+    width:22px; height:22px;
+    border-radius:6px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .log-row .log-del:hover{ background:color-mix(in srgb, var(--warn) 16%, transparent); color:var(--warn); }
+
+  .log-cancel-edit{
+    border:none;
+    background:none;
+    cursor:pointer;
+    font-family:var(--font-body);
+    font-weight:600;
+    font-size:13px;
+    color:var(--text-muted);
+    padding:9px 6px;
+  }
+  .log-cancel-edit:hover{ color:var(--text); text-decoration:underline; }
+
+  .sync-note{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    row-gap:8px;
+    column-gap:8px;
+    font-size:12.5px;
+    color:var(--text-muted);
+    background:var(--surface-soft);
+    border:1px solid var(--border);
+    padding:8px 12px;
+    border-radius:10px;
+    margin-bottom:18px;
+  }
+  .sync-note.local{ color:color-mix(in srgb, var(--warn) 70%, black 10%); }
+  .sync-dot{ width:7px; height:7px; border-radius:50%; background:var(--good); flex:0 0 auto; }
+  .sync-note.local .sync-dot{ background:var(--warn); }
+  .sync-note .sync-text{ flex:1 1 220px; min-width:0; }
+
+  footer.credit{
+    text-align:center;
+    color:var(--text-faint);
+    font-size:12px;
+    margin-top:44px;
+  }
+
+  .sync-refresh{
+    flex:0 0 auto;
+    white-space:nowrap;
+    margin-left:auto;
+    border:1px solid var(--border);
+    background:var(--surface);
+    color:var(--text-muted);
+    font-family:var(--font-body);
+    font-weight:600;
+    font-size:11.5px;
+    padding:4px 10px;
+    border-radius:999px;
+    cursor:pointer;
+  }
+  .sync-refresh:hover{ color:var(--text); border-color:var(--text-faint); }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="hero">
+    <div class="heart" aria-hidden="true">
+      <svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.6-4.35-10.2-9.03C.4 9.6 1.2 6.4 4 5.1c2.2-1 4.6-.2 6 1.7 1.4-1.9 3.8-2.7 6-1.7 2.8 1.3 3.6 4.5 2.2 6.87C19.6 16.65 12 21 12 21z"/></svg>
+    </div>
+    <h1>우리가족 차계부</h1>
+    <p class="tagline">
+      <span class="big">30만km 가즈아</span>
+    </p>
+  </header>
+
+  <nav class="switchboard" id="switchboard">
+    <button class="switch-btn" style="--btn-c:var(--btn-maint)" id="btn-maint" data-view="maint">
+      <span class="icon-slot">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 1-5.4 5.4L4 17l1 1 5.3-5.3a4 4 0 0 1 5.4-5.4z"/><path d="M14.7 6.3 18 3l2 1 1 2-3.3 3.3"/></svg>
+      </span>
+      <span class="labels">
+        <span class="label-main">자동차 정비 주기</span>
+        <span class="label-sub">가솔린 7가지 · 디젤 +4가지</span>
+      </span>
+    </button>
+    <!-- 여수 큰집 / 첫째 / 둘째 family buttons are generated by the script below -->
+  </nav>
+
+  <section id="panel-maint" class="detail-panel" style="--panel-c:var(--btn-maint)" hidden>
+    <div class="panel-accent"></div>
+    <h2 class="panel-title">자동차 정비주기 – 그때 그때 갈자</h2>
+    <p class="panel-sub">놓치기 쉬운 정비 타이밍, 색깔별로 한눈에 정리했어요.</p>
+    <div class="item-grid" id="item-grid"></div>
+
+    <h3 class="sub-section-title">디젤 차량 추가 점검 항목</h3>
+    <p class="panel-sub">디젤은 점화플러그가 없는 대신(예열플러그를 씀) 이 4가지를 더 챙겨야 해요. 지바겐 · 포터가 해당돼요.</p>
+    <div class="item-grid" id="item-grid-diesel"></div>
+  </section>
+
+  <section id="panel-family" class="detail-panel" style="--panel-c:var(--btn-yeosu)" hidden>
+    <div class="panel-accent"></div>
+    <h2 class="panel-title" id="panel-title-family">차량 정비 기록</h2>
+    <p class="panel-sub">차량을 선택하고, 항목을 열어 정비 날짜와 키로수를 기록하고 쌓아보세요.</p>
+    <nav class="car-subnav" id="car-subnav"></nav>
+    <div class="car-header">
+      <div class="car-figure" id="fig-active"></div>
+      <div class="car-meta">
+        <span class="plate" id="plate-active"></span>
+        <p class="model-name" id="model-active"></p>
+      </div>
+      <div class="odo-stat" id="odo-active"></div>
+    </div>
+    <div id="sync-active"></div>
+    <div id="logs-active"></div>
+  </section>
+
+  <footer class="credit">우리 가족 7대, 30만km까지 안전하게 🚗💚</footer>
+</div>
+<script>
+(function(){
+  "use strict";
+
+  // ---------- shared car body-shape svgs ----------
+  // one-box minivan silhouette: tall cabin, near-vertical nose, three even windows
+  var SVG_VAN =
+    '<svg viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+    '<ellipse cx="61" cy="53" rx="50" ry="4" fill="currentColor" opacity=".12"/>' +
+    '<path d="M14 45 L14 21 C14 13 20 9 30 9 L98 9 C108 9 114 14 114 23 L114 45 Z" ' +
+      'fill="#f5f7f6" stroke="#b7c2bb" stroke-width="1.8" stroke-linejoin="round"/>' +
+    '<path d="M22 21 C22 16 26 13 31 13 L103 13 C107 13 109 16 109 20 L109 24 L22 24 Z" ' +
+      'fill="#90a6b6"/>' +
+    '<path d="M48 13 L48 24 M76 13 L76 24" stroke="#f5f7f6" stroke-width="2.2"/>' +
+    '<path d="M14 33 L114 33" stroke="#d3dbd6" stroke-width="1.2"/>' +
+    '<path d="M18 27 L18 43 M99 27 L99 30" stroke="#c3cdc7" stroke-width="1.1"/>' +
+    '<rect x="15" y="16" width="2.4" height="8" rx="1.2" fill="#c3cdc7"/>' +
+    '<circle cx="32" cy="45" r="9.5" fill="#2b2f2d"/><circle cx="32" cy="45" r="4.2" fill="#d7dcd8"/>' +
+    '<circle cx="97" cy="45" r="9.5" fill="#2b2f2d"/><circle cx="97" cy="45" r="4.2" fill="#d7dcd8"/>' +
+    '</svg>';
+
+  // low sedan silhouette: long hood, raked windshield, short cabin, sloped trunk
+  var SVG_SEDAN =
+    '<svg viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+    '<ellipse cx="61" cy="47" rx="50" ry="4" fill="currentColor" opacity=".12"/>' +
+    '<path d="M8 43 L8 35 C8 31 11 29 16 29 L36 28 C42 17 52 12 66 12 L82 12 C92 12 99 17 103 25 L110 29 C114 30 116 33 116 36 L116 43 Z" ' +
+      'fill="#f5f7f6" stroke="#b7c2bb" stroke-width="1.8" stroke-linejoin="round"/>' +
+    '<path d="M40 28 C45 19 53 15 65 15 L67 28 Z" fill="#90a6b6"/>' +
+    '<path d="M69 15 L81 15 C88 15 94 19 98 26 L70 28 Z" fill="#90a6b6"/>' +
+    '<path d="M68 14 L68 28" stroke="#f5f7f6" stroke-width="2"/>' +
+    '<path d="M12 37 L112 37" stroke="#d3dbd6" stroke-width="1.2"/>' +
+    '<ellipse cx="12.5" cy="34" rx="2.6" ry="2" fill="#e7c25a"/>' +
+    '<circle cx="34" cy="44" r="8.6" fill="#2b2f2d"/><circle cx="34" cy="44" r="3.8" fill="#d7dcd8"/>' +
+    '<circle cx="93" cy="44" r="8.6" fill="#2b2f2d"/><circle cx="93" cy="44" r="3.8" fill="#d7dcd8"/>' +
+    '</svg>';
+
+  // boxy off-roader silhouette: flat roof, upright grille, round headlamp, rear spare wheel
+  var SVG_SUV =
+    '<svg viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+    '<ellipse cx="61" cy="53" rx="50" ry="4" fill="currentColor" opacity=".12"/>' +
+    '<path d="M16 45 L16 19 C16 14 20 11 27 11 L93 11 C100 11 104 15 104 21 L104 45 Z" ' +
+      'fill="#f5f7f6" stroke="#b7c2bb" stroke-width="1.8" stroke-linejoin="round"/>' +
+    '<path d="M23 19 C23 15.3 25.6 15 29 15 L91 15 C94.2 15 97 16.6 97 20 L97 24 L23 24 Z" fill="#90a6b6"/>' +
+    '<path d="M58 15 L58 24" stroke="#f5f7f6" stroke-width="2.2"/>' +
+    '<path d="M16 33 L104 33" stroke="#d3dbd6" stroke-width="1.2"/>' +
+    '<rect x="98.5" y="25.5" width="9" height="10" rx="4.5" fill="none" stroke="#8a9990" stroke-width="1.6"/>' +
+    '<ellipse cx="20" cy="21" rx="2.6" ry="2.2" fill="#e7c25a"/>' +
+    '<circle cx="31" cy="45" r="9.5" fill="#2b2f2d"/><circle cx="31" cy="45" r="4.2" fill="#d7dcd8"/>' +
+    '<circle cx="91" cy="45" r="9.5" fill="#2b2f2d"/><circle cx="91" cy="45" r="4.2" fill="#d7dcd8"/>' +
+    '</svg>';
+
+  // cab-over pickup silhouette: short front cab, low open flatbed at the rear
+  var SVG_TRUCK =
+    '<svg viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+    '<ellipse cx="61" cy="53" rx="50" ry="4" fill="currentColor" opacity=".12"/>' +
+    '<path d="M10 45 L10 22 C10 16 14 13 20 13 L44 13 C48 13 50 16 50 20 L50 45 Z" ' +
+      'fill="#f5f7f6" stroke="#b7c2bb" stroke-width="1.8" stroke-linejoin="round"/>' +
+    '<path d="M16 22 C16 18 18.5 16 22 16 L42 16 C44.5 16 45.5 18 45.5 20.5 L45.5 25 L16 25 Z" fill="#90a6b6"/>' +
+    '<path d="M50 30 L112 30 L112 45 L50 45 Z" fill="#e9edea" stroke="#b7c2bb" stroke-width="1.8"/>' +
+    '<path d="M50 30 L112 30" stroke="#8a9990" stroke-width="1.6"/>' +
+    '<path d="M10 34 L112 34" stroke="#d3dbd6" stroke-width="1"/>' +
+    '<circle cx="26" cy="45" r="9" fill="#2b2f2d"/><circle cx="26" cy="45" r="4" fill="#d7dcd8"/>' +
+    '<circle cx="96" cy="45" r="9" fill="#2b2f2d"/><circle cx="96" cy="45" r="4" fill="#d7dcd8"/>' +
+    '</svg>';
+
+  var BODY_SVG = { van: SVG_VAN, sedan: SVG_SEDAN, suv: SVG_SUV, truck: SVG_TRUCK };
+
+  // house icon used for every family-category button (color alone tells them apart)
+  var FAMILY_ICON =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
+    '<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>';
+
+  // ---------- data ----------
+  var ITEMS = [
+    { key:'oil',     name:'엔진오일',           badge:'오일',   color:'--c-oil',
+      range:'5,000~10,000km', dueKm:10000,
+      desc:'여름방학 · 겨울방학마다 교체' },
+    { key:'mission', name:'미션오일',           badge:'미션',   color:'--c-mission',
+      range:'100,000km', dueKm:100000,
+      desc:'10만km마다 교체' },
+    { key:'brake',   name:'브레이크 패드 · 오일', badge:'브레이크', color:'--c-brake',
+      range:'50,000~70,000km', dueKm:70000,
+      desc:'확인 후 교체' },
+    { key:'tire',    name:'타이어',             badge:'타이어', color:'--c-tire',
+      range:'5년 또는 50,000km', dueKm:50000,
+      desc:'5년 또는 5만km마다 교체' },
+    { key:'belt',    name:'겉벨트 세트(부동액, 댐퍼풀리, 워터펌프)', badge:'벨트',   color:'--c-belt',
+      range:'100,000km', dueKm:100000,
+      desc:'확인 후 교체' },
+    { key:'plug',    name:'점화플러그',         badge:'플러그', color:'--c-plug',
+      range:'100,000km', dueKm:100000,
+      desc:'확인 후 교체' },
+    { key:'chain',   name:'타이밍 체인',         badge:'체인',   color:'--c-chain',
+      range:'200,000km', dueKm:200000,
+      desc:'확인 후 교체' }
+  ];
+
+  // 디젤 엔진 전용 추가 점검 항목 — 디젤은 점화플러그가 없고(예열플러그를 씀) 대신 이 4가지를 더 챙겨야 함
+  var DIESEL_ITEMS = [
+    { key:'dfilter', name:'연료필터(디젤)',      badge:'필터',   color:'--c-dfilter',
+      range:'20,000~30,000km', dueKm:30000,
+      desc:'가솔린보다 자주 교체' },
+    { key:'glow',    name:'예열플러그',          badge:'예열',   color:'--c-glow',
+      range:'100,000km', dueKm:100000,
+      desc:'시동 불량 시 점검 후 교체 (점화플러그 대신)' },
+    { key:'dpf',     name:'DPF(매연저감장치)',   badge:'DPF',    color:'--c-dpf',
+      range:'100,000~150,000km', dueKm:120000,
+      desc:'경고등 뜨면 점검 · 클리닝' },
+    { key:'urea',    name:'요소수(SCR)',         badge:'요소수', color:'--c-urea',
+      range:'10,000~15,000km', dueKm:12000,
+      desc:'부족하면 시동 제한, 미리 보충' }
+  ];
+
+  // 가솔린: 기존 7항목 그대로. 디젤: 점화플러그 대신 디젤 전용 4항목을 벨트와 타이밍체인 사이에 끼워 넣음
+  var GAS_BASE_ITEMS = ITEMS.filter(function(it){ return it.key !== 'plug' && it.key !== 'chain'; });
+  var CHAIN_ITEM = ITEMS.filter(function(it){ return it.key === 'chain'; })[0];
+  var DIESEL_ITEM_LIST = GAS_BASE_ITEMS.concat(DIESEL_ITEMS).concat([CHAIN_ITEM]);
+
+  function itemsForCar(car){
+    return (car && car.fuel === 'diesel') ? DIESEL_ITEM_LIST : ITEMS;
+  }
+
+  // family (큰 카테고리) definitions — 자동차 정비 주기 is its own separate top-level view, handled apart from these
+  var FAMILIES = [
+    { key:'yeosu',  name:'여수 큰집', color:'var(--btn-yeosu)' },
+    { key:'first',  name:'첫째',     color:'var(--btn-first)' },
+    { key:'second', name:'둘째',     color:'var(--btn-second)' }
+  ];
+
+  var CARS = [
+    { id:'gwagen',   family:'yeosu',  plate:'16두 6713',  short:'지바겐', model:'지바겐 (G-Wagen)', color:'#5b7c99', body:'suv',   fuel:'diesel' },
+    { id:'avante',   family:'yeosu',  plate:'37어 0456',  short:'아반떼', model:'아반떼',            color:'#6fb37a', body:'sedan', fuel:'gas' },
+    { id:'porter',   family:'yeosu',  plate:'81너 2026',  short:'포터',   model:'포터',              color:'#d9a441', body:'truck', fuel:'diesel' },
+    { id:'carnival', family:'first',  plate:'170보 9391', short:'카니발', model:'카니발 (4세대)',    color:'#e2955c', body:'van',   fuel:'gas' },
+    { id:'k5',       family:'first',  plate:'59너 5214',  short:'K5',    model:'K5 (2.5세대)',      color:'#c076c9', body:'sedan', fuel:'gas' },
+    { id:'sonata',   family:'second', plate:'49마 1451',  short:'소나타', model:'소나타',            color:'#4f80d9', body:'sedan', fuel:'gas' },
+    { id:'volvo',    family:'second', plate:'238누 6236', short:'볼보',   model:'볼보',              color:'#7a6bc4', body:'sedan', fuel:'gas' }
+  ];
+  var CARS_BY_ID = {};
+  CARS.forEach(function(c){ CARS_BY_ID[c.id] = c; });
+
+  var GOAL_KM = 300000;
+
+  function fmt(n){ return Number(n).toLocaleString('ko-KR'); }
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, function(c){
+      return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];
+    });
+  }
+
+  // ---------- render: maintenance reference grid ----------
+  function itemCardHtml(it){
+    return (
+      '<div class="item-card" style="--item-c:var(' + it.color + ')">' +
+        '<div class="swatch"></div>' +
+        '<div>' +
+          '<span class="item-badge">' + it.badge + '</span>' +
+          '<h3>' + it.name + '</h3>' +
+          '<div class="item-range">' + it.range + '</div>' +
+          '<div class="item-desc">' + it.desc + '</div>' +
+        '</div>' +
+      '</div>'
+    );
+  }
+  document.getElementById('item-grid').innerHTML = ITEMS.map(itemCardHtml).join('');
+  document.getElementById('item-grid-diesel').innerHTML = DIESEL_ITEMS.map(itemCardHtml).join('');
+
+  // ---------- top-level nav: build the 3 family buttons after the static 정비주기 button ----------
+  var switchboard = document.getElementById('switchboard');
+  FAMILIES.forEach(function(fam){
+    var carsIn = CARS.filter(function(c){ return c.family === fam.key; });
+    var subLabel = carsIn.map(function(c){ return c.short; }).join(' · ');
+    var btn = document.createElement('button');
+    btn.className = 'switch-btn';
+    btn.setAttribute('style', '--btn-c:' + fam.color);
+    btn.setAttribute('data-view', fam.key);
+    btn.innerHTML =
+      '<span class="icon-slot">' + FAMILY_ICON + '</span>' +
+      '<span class="labels">' +
+        '<span class="label-main">' + fam.name + '</span>' +
+        '<span class="label-sub">' + subLabel + '</span>' +
+      '</span>';
+    switchboard.appendChild(btn);
+  });
+
+  // ---------- tabs: buttons stay put, exactly one panel/one car shows below them ----------
+  var switchButtons = document.querySelectorAll('.switch-btn');
+  var lastCarByFamily = {};
+
+  function selectView(view){
+    var isMaint = (view === 'maint');
+    document.getElementById('panel-maint').hidden = !isMaint;
+    document.getElementById('panel-family').hidden = isMaint;
+    switchButtons.forEach(function(btn){
+      btn.classList.toggle('is-active', btn.getAttribute('data-view') === view);
+    });
+    if(!isMaint){ renderFamily(view); }
+    document.getElementById(isMaint ? 'panel-maint' : 'panel-family')
+      .scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  switchButtons.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      selectView(btn.getAttribute('data-view'));
+    });
+  });
+
+  function markSubnavActive(carId){
+    document.querySelectorAll('.car-tab').forEach(function(btn){
+      btn.classList.toggle('is-active', btn.getAttribute('data-car') === carId);
+    });
+  }
+
+  function renderFamily(familyKey){
+    var carsIn = CARS.filter(function(c){ return c.family === familyKey; });
+    var subnav = document.getElementById('car-subnav');
+    var activeCarId = lastCarByFamily[familyKey] || carsIn[0].id;
+
+    subnav.innerHTML = carsIn.map(function(c){
+      return (
+        '<button class="car-tab" style="--tab-c:' + c.color + '" data-car="' + c.id + '">' +
+          '<span class="tab-icon" id="tab-icon-' + c.id + '"></span>' +
+          '<span>' +
+            '<span class="tab-label">' + c.short + '</span>' +
+            '<span class="tab-plate">' + c.plate + '</span>' +
+          '</span>' +
+        '</button>'
+      );
+    }).join('');
+    carsIn.forEach(function(c){
+      document.getElementById('tab-icon-' + c.id).innerHTML = BODY_SVG[c.body];
+    });
+    subnav.querySelectorAll('.car-tab').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var carId = btn.getAttribute('data-car');
+        lastCarByFamily[familyKey] = carId;
+        selectCar(carId);
+        markSubnavActive(carId);
+      });
+    });
+
+    selectCar(activeCarId);
+    markSubnavActive(activeCarId);
+  }
+
+  var currentActiveCarId = null;
+  function selectCar(carId){
+    currentActiveCarId = carId;
+    var car = CARS_BY_ID[carId];
+    document.getElementById('panel-family').style.setProperty('--panel-c', car.color);
+    document.getElementById('panel-title-family').textContent = car.model + ' 정비 기록';
+    document.getElementById('fig-active').innerHTML = BODY_SVG[car.body];
+    document.getElementById('plate-active').innerHTML = escapeHtml(car.plate) +
+      (car.fuel === 'diesel' ? ' <span class="fuel-tag">디젤</span>' : '');
+    document.getElementById('model-active').textContent = car.model;
+    renderCar(carId);
+  }
+
+  // ---------- shared data: lives in the family's Google Sheet, via a Google Apps Script
+  // Web App. Every device that opens this file talks to the same sheet, so everyone
+  // (no login needed) reads and writes the same records. A per-browser localStorage
+  // copy is kept purely as a safety-net backup for offline/first-load, never as the
+  // primary store. ----------
+  var API_URL = 'https://script.google.com/macros/s/AKfycbx-EfM4JxBFESjN-iHA20Pd2YOeQEHveTeW5Vd63lgnR40Z6yA2P7i6U6-vYxw_dyql/exec';
+
+  var isReadOnly = false;
+  var writeStatus = 'unknown'; // 'unknown' | 'loading' | 'ok' | 'saving' | 'error' | 'offline'
+  var STORAGE_BACKUP_KEY = 'wooricar-log:backup';
+  var AUTO_REFRESH_MS = 45000;
+
+  function emptySharedData(){
+    var d = {};
+    CARS.forEach(function(c){ d[c.id] = { logs: {} }; });
+    return d;
+  }
+  var sharedData = emptySharedData();
+
+  function backupToLocalStorage(){
+    try{ localStorage.setItem(STORAGE_BACKUP_KEY, JSON.stringify(sharedData)); } catch(e){}
+  }
+  function loadLocalBackupInto(target){
+    try{
+      var raw = localStorage.getItem(STORAGE_BACKUP_KEY);
+      if(!raw) return;
+      var parsed = JSON.parse(raw);
+      CARS.forEach(function(c){ if(parsed[c.id]) target[c.id] = parsed[c.id]; });
+    } catch(e){}
+  }
+
+  // records: [{id, carId, itemKey, date, km, note, updatedAt}, ...] -> sharedData shape
+  function recordsToSharedData(records){
+    var d = emptySharedData();
+    (records || []).forEach(function(r){
+      if(!r || !r.id || !r.carId) return;
+      if(!d[r.carId]) return; // unknown car id, skip
+      d[r.carId].logs[r.id] = {
+        itemKey: r.itemKey,
+        date: r.date,
+        km: r.km,
+        note: r.note || ''
+      };
+    });
+    return d;
+  }
+
+  // GET the whole sheet. Sent plain (no custom headers) so it never triggers a CORS
+  // preflight, which Apps Script Web Apps don't handle.
+  function loadSharedData(){
+    writeStatus = 'loading';
+    renderSyncNote();
+    return fetch(API_URL, { method: 'GET', cache: 'no-store' })
+      .then(function(res){ return res.json(); })
+      .then(function(json){
+        if(!json || !json.ok) throw new Error((json && json.error) || 'load failed');
+        sharedData = recordsToSharedData(json.records);
+        backupToLocalStorage();
+        writeStatus = 'ok';
+      })
+      .catch(function(){
+        // network hiccup / apps script asleep / offline — fall back to this browser's
+        // last-known backup so at least this device doesn't look empty
+        loadLocalBackupInto(sharedData);
+        writeStatus = 'offline';
+      })
+      .then(function(){ renderSyncNote(); });
+  }
+
+  function logsArrayFor(carId){
+    var obj = (sharedData[carId] && sharedData[carId].logs) || {};
+    return Object.keys(obj).map(function(id){
+      var l = obj[id];
+      return { id: id, itemKey: l.itemKey, date: l.date, km: l.km, note: l.note };
+    });
+  }
+
+  var state = {};
+  CARS.forEach(function(c){ state[c.id] = { open: {} }; });
+
+  function nextDue(item, logsForItem){
+    if(!logsForItem.length) return null;
+    var lastKm = logsForItem.reduce(function(m,l){ return Math.max(m, Number(l.km)||0); }, 0);
+    return lastKm + item.dueKm;
+  }
+
+  function currentKm(carId){
+    return logsArrayFor(carId).reduce(function(m,l){ return Math.max(m, Number(l.km)||0); }, 0);
+  }
+
+  function renderSyncNote(){
+    var sync = document.getElementById('sync-active');
+    if(!sync) return;
+    if(writeStatus === 'loading'){
+      sync.innerHTML = '<div class="sync-note"><span class="sync-dot"></span><span class="sync-text">구글 시트에서 최신 기록을 불러오는 중...</span></div>';
+    } else if(writeStatus === 'saving'){
+      sync.innerHTML = '<div class="sync-note"><span class="sync-dot"></span><span class="sync-text">저장하는 중...</span></div>';
+    } else if(writeStatus === 'ok'){
+      sync.innerHTML = '<div class="sync-note"><span class="sync-dot"></span><span class="sync-text">구글 시트에 저장돼요 — 가족 모두 같은 기록을 보고 함께 기록할 수 있어요.</span>' +
+        '<button type="button" class="sync-refresh" id="sync-refresh-btn">새로고침</button></div>';
+    } else if(writeStatus === 'error'){
+      sync.innerHTML = '<div class="sync-note local"><span class="sync-dot"></span><span class="sync-text">저장에 실패했어요. 인터넷 연결을 확인하고 다시 시도해 주세요 (일단 이 화면엔 남아있어요).</span>' +
+        '<button type="button" class="sync-refresh" id="sync-refresh-btn">새로고침</button></div>';
+    } else if(writeStatus === 'offline'){
+      sync.innerHTML = '<div class="sync-note local"><span class="sync-dot"></span><span class="sync-text">지금은 구글 시트에 연결할 수 없어서 이 기기에 저장된 마지막 기록을 보여줘요.</span>' +
+        '<button type="button" class="sync-refresh" id="sync-refresh-btn">다시 연결</button></div>';
+    } else {
+      sync.innerHTML = '<div class="sync-note"><span class="sync-dot"></span><span class="sync-text">함께 쓰는 차계부예요.</span></div>';
+    }
+    var refreshBtn = document.getElementById('sync-refresh-btn');
+    if(refreshBtn){
+      refreshBtn.addEventListener('click', function(){
+        loadSharedData().then(function(){
+          if(currentActiveCarId){ renderCar(currentActiveCarId); }
+        });
+      });
+    }
+  }
+
+  function setWriteStatus(status){
+    writeStatus = status;
+    renderSyncNote();
+  }
+
+  // POST body is sent as text/plain (not application/json) on purpose — Apps Script
+  // Web Apps handle the CORS preflight that a real application/json request triggers
+  // very poorly, so this is the well-known workaround.
+  function postToSheet(payload){
+    return fetch(API_URL, {
+      method: 'POST',
+      body: JSON.stringify(payload)
+    }).then(function(res){ return res.json(); }).then(function(json){
+      if(!json || !json.ok) throw new Error((json && json.error) || 'save failed');
+      return json;
+    });
+  }
+
+  function mutateAndSync(carId, applyFn, remotePayload, attempt){
+    attempt = attempt || 0;
+    // optimistic local update so the UI feels instant
+    applyFn();
+    backupToLocalStorage();
+    renderCar(carId);
+    setWriteStatus('saving');
+    postToSheet(remotePayload).then(function(){
+      setWriteStatus('ok');
+    }).catch(function(){
+      if(attempt < 2){
+        setTimeout(function(){ postToSheet(remotePayload).then(function(){ setWriteStatus('ok'); }).catch(function(){
+          if(attempt + 1 < 2){ mutateAndSyncRetry(remotePayload, attempt + 1); } else { setWriteStatus('error'); }
+        }); }, 1500);
+      } else {
+        setWriteStatus('error');
+      }
+    });
+  }
+  function mutateAndSyncRetry(remotePayload, attempt){
+    postToSheet(remotePayload).then(function(){ setWriteStatus('ok'); }).catch(function(){
+      if(attempt < 2){ setTimeout(function(){ mutateAndSyncRetry(remotePayload, attempt + 1); }, 2500); }
+      else { setWriteStatus('error'); }
+    });
+  }
+
+  // renders the currently-selected car's data into the single shared "-active" DOM slots
+  function renderCar(carId){
+    var cur = currentKm(carId);
+
+    // odometer stat
+    var odoBox = document.getElementById('odo-active');
+    var pct = Math.max(0, Math.min(100, (cur / GOAL_KM) * 100));
+    odoBox.innerHTML =
+      '<div class="odo-value">' + (cur ? fmt(cur) + ' km' : '기록 없음') + '</div>' +
+      '<div class="odo-label">현재까지 확인된 최고 키로수</div>' +
+      '<div class="odo-bar"><div style="width:' + pct.toFixed(1) + '%"></div></div>' +
+      '<div class="odo-goal">30만km까지 ' + (cur ? fmt(Math.max(0, GOAL_KM - cur)) + 'km 남음 (' + pct.toFixed(1) + '%)' : '기록을 추가하면 진행률이 표시돼요') + '</div>';
+
+    // sync banner
+    renderSyncNote();
+
+    // item rows — diesel cars get their own extra items instead of the gas-only spark plug
+    var host = document.getElementById('logs-active');
+    host.innerHTML = itemsForCar(CARS_BY_ID[carId]).map(function(item){
+      var itemLogs = logsArrayFor(carId).filter(function(l){ return l.itemKey === item.key; })
+                          .slice()
+                          .sort(function(a,b){ return (b.date||'').localeCompare(a.date||''); });
+      var due = nextDue(item, itemLogs);
+      var dueHtml;
+      if(due === null){
+        dueHtml = '<span class="due-chip empty">기록 없음</span>';
+      } else {
+        var remain = due - cur;
+        if(remain <= 0){
+          dueHtml = '<span class="due-chip warn">정비 시기 도래</span>';
+        } else {
+          dueHtml = '<span class="due-chip">약 ' + fmt(remain) + 'km 남음</span>';
+        }
+      }
+
+      var historyHtml = itemLogs.length ?
+        itemLogs.map(function(l){
+          var actionsHtml = isReadOnly ? '' : (
+            '<button class="log-edit" title="기록 수정" aria-label="기록 수정" data-edit="' + l.id + '" data-car="' + carId + '">' +
+              '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>' +
+            '</button>' +
+            '<button class="log-del" title="기록 삭제" aria-label="기록 삭제" data-del="' + l.id + '" data-car="' + carId + '">' +
+              '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>' +
+            '</button>'
+          );
+          return (
+            '<div class="log-row" data-log-id="' + l.id + '" data-car="' + carId + '">' +
+              '<span class="log-date">' + (l.date || '-') + '</span>' +
+              '<span class="log-km">' + fmt(l.km) + 'km</span>' +
+              (l.note ? '<span class="log-note">' + escapeHtml(l.note) + '</span>' : '') +
+              actionsHtml +
+            '</div>'
+          );
+        }).join('')
+        : '<div class="empty-note">아직 기록이 없어요. 정비하면 날짜와 키로수를 남겨보세요.</div>';
+
+      var openAttr = state[carId].open[item.key] ? ' open' : '';
+      var formHtml = isReadOnly ? '' : (
+        '<form class="log-form" data-car="' + carId + '" data-item="' + item.key + '" data-editing="">' +
+          '<div class="field"><label>정비 날짜</label><input type="date" name="date" required></div>' +
+          '<div class="field"><label>키로수(km)</label><input type="number" name="km" min="0" step="1" placeholder="예: 82437" required></div>' +
+          '<div class="field" style="flex:1 1 140px;"><label>메모(선택)</label><input type="text" name="note" placeholder="예: 순정 필터로 교체"></div>' +
+          '<button type="submit">+ 기록 추가</button>' +
+          '<button type="button" class="log-cancel-edit" hidden>취소</button>' +
+        '</form>'
+      );
+      return (
+        '<details class="log-item" data-item-key="' + item.key + '" style="--item-c:var(' + item.color + ')"' + openAttr + '>' +
+          '<summary>' +
+            '<span class="swatch-dot"></span>' +
+            '<span class="head-text"><h3>' + item.name + '</h3><span class="range">' + item.range + ' · ' + item.badge + '</span></span>' +
+            dueHtml +
+            '<svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>' +
+          '</summary>' +
+          '<div class="log-body">' +
+            formHtml +
+            '<div class="log-history">' + historyHtml + '</div>' +
+          '</div>' +
+        '</details>'
+      );
+    }).join('');
+
+    // remember which items are expanded so re-renders (after add/edit/delete) don't collapse them
+    host.querySelectorAll('.log-item').forEach(function(details){
+      details.addEventListener('toggle', function(){
+        var key = details.getAttribute('data-item-key');
+        if(details.open){ state[carId].open[key] = true; }
+        else { delete state[carId].open[key]; }
+      });
+    });
+
+    // wire up forms + edit/delete buttons (event delegation would be simpler, but this panel re-renders often — bind fresh each time)
+    host.querySelectorAll('.log-form').forEach(function(form){
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        var fd = new FormData(form);
+        var payload = {
+          date: fd.get('date'),
+          km: Number(fd.get('km')),
+          note: (fd.get('note') || '').toString().trim()
+        };
+        var editingId = form.getAttribute('data-editing');
+        if(editingId){
+          updateLog(form.getAttribute('data-car'), editingId, payload);
+        } else {
+          addLog(form.getAttribute('data-car'), form.getAttribute('data-item'), payload);
+        }
+        form.reset();
+      });
+
+      var cancelBtn = form.querySelector('.log-cancel-edit');
+      cancelBtn.addEventListener('click', function(){
+        form.reset();
+        form.setAttribute('data-editing', '');
+        form.querySelector('button[type="submit"]').textContent = '+ 기록 추가';
+        cancelBtn.hidden = true;
+      });
+    });
+
+    host.querySelectorAll('[data-edit]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var carIdForEdit = btn.getAttribute('data-car');
+        var logId = btn.getAttribute('data-edit');
+        var log = sharedData[carIdForEdit] && sharedData[carIdForEdit].logs[logId];
+        if(!log) return;
+        var form = btn.closest('.log-item').querySelector('.log-form');
+        form.querySelector('input[name="date"]').value = log.date || '';
+        form.querySelector('input[name="km"]').value = log.km;
+        form.querySelector('input[name="note"]').value = log.note || '';
+        form.setAttribute('data-editing', logId);
+        form.querySelector('button[type="submit"]').textContent = '수정 완료';
+        form.querySelector('.log-cancel-edit').hidden = false;
+        form.querySelector('input[name="date"]').focus();
+      });
+    });
+
+    host.querySelectorAll('[data-del]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        deleteLog(btn.getAttribute('data-car'), btn.getAttribute('data-del'));
+      });
+    });
+  }
+
+  function addLog(carId, itemKey, payload){
+    var id = 'log-' + Date.now() + '-' + Math.random().toString(36).slice(2,7);
+    mutateAndSync(carId, function(){
+      sharedData[carId].logs[id] = { itemKey: itemKey, date: payload.date, km: payload.km, note: payload.note || '' };
+    }, { action: 'save', id: id, carId: carId, itemKey: itemKey, date: payload.date, km: payload.km, note: payload.note || '' });
+  }
+
+  function updateLog(carId, logId, payload){
+    var existing = (sharedData[carId] && sharedData[carId].logs[logId]) || {};
+    var itemKey = existing.itemKey;
+    mutateAndSync(carId, function(){
+      sharedData[carId].logs[logId] = { itemKey: itemKey, date: payload.date, km: payload.km, note: payload.note || '' };
+    }, { action: 'save', id: logId, carId: carId, itemKey: itemKey, date: payload.date, km: payload.km, note: payload.note || '' });
+  }
+
+  function deleteLog(carId, logId){
+    mutateAndSync(carId, function(){
+      if(sharedData[carId] && sharedData[carId].logs){ delete sharedData[carId].logs[logId]; }
+    }, { action: 'delete', id: logId });
+  }
+
+  // fetch the shared record sheet once at load; if a car is already on screen by the
+  // time it resolves, refresh that car's view with the real data
+  loadSharedData().then(function(){
+    if(currentActiveCarId){ renderCar(currentActiveCarId); }
+  });
+
+  // keep the open tab reasonably fresh so a family member sees what others just added
+  // without needing to reload the page
+  setInterval(function(){
+    if(document.hidden) return;
+    loadSharedData().then(function(){
+      if(currentActiveCarId){ renderCar(currentActiveCarId); }
+    });
+  }, AUTO_REFRESH_MS);
+
+})();
+</script>
+</body>
+</html>
